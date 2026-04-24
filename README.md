@@ -1,6 +1,6 @@
 # My Omni AI Studio
 
-一个前端单页 AI 工作台，支持：
+一个前端单页 AI 工作台（界面风格参考 Hugging Face Spaces），支持：
 
 - AI 聊天
 - AI 代码生成

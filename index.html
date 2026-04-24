@@ -8,15 +8,35 @@
   </head>
   <body>
     <header class="topbar">
-      <div>
-        <h1>My Omni AI Studio</h1>
-        <p>基于 Hugging Face API 的多模型 AI 工作台（聊天 / 代码 / 写作 / 视频 / 换脸）</p>
+      <div class="brand">
+        <span class="logo">🤗</span>
+        <strong>My Omni AI Studio</strong>
       </div>
+      <div class="search-wrap">
+        <input type="text" readonly value="Search models, datasets, spaces..." aria-label="search placeholder" />
+      </div>
+      <nav class="topnav">
+        <a href="#">Models</a>
+        <a href="#">Datasets</a>
+        <a href="#">Spaces</a>
+      </nav>
       <button id="saveConfigBtn">保存配置</button>
     </header>
 
     <main class="layout">
-      <aside class="panel settings">
+      <aside class="sidebar panel">
+        <div class="profile-card">
+          <div class="avatar">FC</div>
+          <h2>FlashCode-Lab</h2>
+          <p class="hint">@FlashCode-Lab</p>
+          <div class="profile-actions">
+            <button type="button">+ New</button>
+            <button type="button">Edit profile</button>
+            <button type="button">Settings</button>
+          </div>
+        </div>
+
+        <section class="settings">
         <h2>全局配置</h2>
         <label>Hugging Face Token
           <input id="hfToken" type="password" placeholder="hf_xxx" />
@@ -57,9 +77,33 @@
         <button id="copyDeployCmdBtn" type="button">复制已替换的一键命令</button>
         <pre id="deployCmdOutput" class="output"></pre>
         <p class="hint">如果你已经在上方填写了 Token，复制出的命令会自动替换为可直接执行版本。</p>
+        </section>
       </aside>
 
       <section class="panel workspace">
+        <div class="workspace-head">
+          <h2>Spaces</h2>
+          <button type="button" class="ghost">Sort: Recently updated</button>
+        </div>
+
+        <section class="space-cards">
+          <article class="space-card card-red">
+            <span class="badge">No application file</span>
+            <h3>My Windows App 🚀</h3>
+            <p>Streamlit template space</p>
+          </article>
+          <article class="space-card card-blue">
+            <span class="badge">Running</span>
+            <h3>My Python Studio 💻</h3>
+            <p>Edit code online with a full VSCode web editor</p>
+          </article>
+          <article class="space-card card-cyan">
+            <span class="badge">Running · Agents</span>
+            <h3>Super AI Brain 🚀</h3>
+            <p>Chat with an AI assistant that can search the web in real time</p>
+          </article>
+        </section>
+
         <nav class="tabs">
           <button class="tab active" data-tab="chat">AI 聊天</button>
           <button class="tab" data-tab="code">AI 代码</button>
