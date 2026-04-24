@@ -1,0 +1,16 @@
+{
+  "name": "my-ai-coder",
+  "version": "1.0.0",
+  "description": "Unified AI workspace powered by Hugging Face and model router adapters",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "check": "node --check server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
