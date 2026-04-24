@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Omni AI Studio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">🤗</span>
+        <strong>My Omni AI Studio</strong>
+      </div>
+      <div class="search-wrap">
+        <input type="text" readonly value="Search models, datasets, spaces..." aria-label="search placeholder" />
+      </div>
+      <nav class="topnav">
+        <a href="#">Models</a>
+        <a href="#">Datasets</a>
+        <a href="#">Spaces</a>
+      </nav>
+      <button id="saveConfigBtn">保存配置</button>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar panel">
+        <div class="profile-card">
+          <div class="avatar">FC</div>
+          <h2>FlashCode-Lab</h2>
+          <p class="hint">@FlashCode-Lab</p>
+          <div class="profile-actions">
+            <button type="button">+ New</button>
+            <button type="button">Edit profile</button>
+            <button type="button">Settings</button>
+          </div>
+        </div>
+
+        <section class="settings">
+        <h2>全局配置</h2>
+        <label>Hugging Face Token
+          <input id="hfToken" type="password" placeholder="hf_xxx" />
+        </label>
+        <label>默认聊天模型
+          <input id="chatModel" type="text" value="meta-llama/Llama-3.1-8B-Instruct" />
+        </label>
+        <label>默认代码模型
+          <input id="codeModel" type="text" value="Qwen/Qwen2.5-Coder-7B-Instruct" />
+        </label>
+        <label>默认写作模型
+          <input id="writerModel" type="text" value="mistralai/Mistral-7B-Instruct-v0.3" />
+        </label>
+        <label>视频模型（Text/Image to Video）
+          <input id="videoModel" type="text" value="Wan-AI/Wan2.1-T2V-14B" />
+        </label>
+        <label>换脸模型（Image-to-Image）
+          <input id="faceModel" type="text" value="stabilityai/stable-diffusion-xl-base-1.0" />
+        </label>
+        <p class="hint">提示：可替换为 Hugging Face 上任意可用模型 ID，实现“自己的 AI 可调用任何模型”。</p>
+
+        <hr />
+        <h3>一键发布到 Hugging Face</h3>
+        <label>Space 名称
+          <input id="spaceName" type="text" placeholder="my-omni-ai-studio" />
+        </label>
+        <label>Space SDK
+          <select id="spaceSdk">
+            <option value="static">static（当前前端推荐）</option>
+            <option value="gradio">gradio</option>
+            <option value="docker">docker</option>
+          </select>
+        </label>
+        <label class="inline-control">
+          <input id="spacePrivate" type="checkbox" />
+          创建私有 Space
+        </label>
+        <button id="copyDeployCmdBtn" type="button">复制已替换的一键命令</button>
+        <pre id="deployCmdOutput" class="output"></pre>
+        <p class="hint">如果你已经在上方填写了 Token，复制出的命令会自动替换为可直接执行版本。</p>
+        </section>
+      </aside>
+
+      <section class="panel workspace">
+        <div class="workspace-head">
+          <h2>Spaces</h2>
+          <button type="button" class="ghost">Sort: Recently updated</button>
+        </div>
+
+        <section class="space-cards">
+          <article class="space-card card-red">
+            <span class="badge">No application file</span>
+            <h3>My Windows App 🚀</h3>
+            <p>Streamlit template space</p>
+          </article>
+          <article class="space-card card-blue">
+            <span class="badge">Running</span>
+            <h3>My Python Studio 💻</h3>
+            <p>Edit code online with a full VSCode web editor</p>
+          </article>
+          <article class="space-card card-cyan">
+            <span class="badge">Running · Agents</span>
+            <h3>Super AI Brain 🚀</h3>
+            <p>Chat with an AI assistant that can search the web in real time</p>
+          </article>
+        </section>
+
+        <nav class="tabs">
+          <button class="tab active" data-tab="chat">AI 聊天</button>
+          <button class="tab" data-tab="code">AI 代码</button>
+          <button class="tab" data-tab="writing">AI 写作</button>
+          <button class="tab" data-tab="video">AI 视频</button>
+          <button class="tab" data-tab="faceswap">AI 换脸</button>
+        </nav>
+
+        <article class="tab-panel active" id="chat">
+          <h3>聊天助手</h3>
+          <textarea id="chatPrompt" rows="6" placeholder="输入你想聊的话题..."></textarea>
+          <button data-action="chat">发送</button>
+          <pre id="chatOutput" class="output"></pre>
+        </article>
+
+        <article class="tab-panel" id="code">
+          <h3>代码助手</h3>
+          <textarea id="codePrompt" rows="6" placeholder="例如：用 Python 写一个快速排序"></textarea>
+          <button data-action="code">生成代码</button>
+          <pre id="codeOutput" class="output"></pre>
+        </article>
+
+        <article class="tab-panel" id="writing">
+          <h3>写作助手</h3>
+          <textarea id="writingPrompt" rows="6" placeholder="例如：写一篇关于 AI 未来的中文演讲稿"></textarea>
+          <button data-action="writing">开始写作</button>
+          <pre id="writingOutput" class="output"></pre>
+        </article>
+
+        <article class="tab-panel" id="video">
+          <h3>视频生成助手</h3>
+          <textarea id="videoPrompt" rows="4" placeholder="描述你要生成的视频场景"></textarea>
+          <button data-action="video">提交视频任务</button>
+          <pre id="videoOutput" class="output"></pre>
+          <p class="hint">说明：多数视频模型为异步任务，本示例返回任务状态或结果链接。</p>
+        </article>
+
+        <article class="tab-panel" id="faceswap">
+          <h3>换脸助手（示例工作流）</h3>
+          <textarea id="facePrompt" rows="4" placeholder="说明换脸风格和要求"></textarea>
+          <button data-action="faceswap">提交换脸任务</button>
+          <pre id="faceOutput" class="output"></pre>
+          <p class="hint">建议：生产环境可接入 Roop / InsightFace / Diffusers Inpainting API 管道。</p>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <small>⚠️ Token 仅保存在你的浏览器 localStorage 中，请勿在不安全设备使用。</small>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
