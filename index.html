@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Omni AI Studio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>My Omni AI Studio</h1>
+        <p>基于 Hugging Face API 的多模型 AI 工作台（聊天 / 代码 / 写作 / 视频 / 换脸）</p>
+      </div>
+      <button id="saveConfigBtn">保存配置</button>
+    </header>
+
+    <main class="layout">
+      <aside class="panel settings">
+        <h2>全局配置</h2>
+        <label>Hugging Face Token
+          <input id="hfToken" type="password" placeholder="hf_xxx" />
+        </label>
+        <label>默认聊天模型
+          <input id="chatModel" type="text" value="meta-llama/Llama-3.1-8B-Instruct" />
+        </label>
+        <label>默认代码模型
+          <input id="codeModel" type="text" value="Qwen/Qwen2.5-Coder-7B-Instruct" />
+        </label>
+        <label>默认写作模型
+          <input id="writerModel" type="text" value="mistralai/Mistral-7B-Instruct-v0.3" />
+        </label>
+        <label>视频模型（Text/Image to Video）
+          <input id="videoModel" type="text" value="Wan-AI/Wan2.1-T2V-14B" />
+        </label>
+        <label>换脸模型（Image-to-Image）
+          <input id="faceModel" type="text" value="stabilityai/stable-diffusion-xl-base-1.0" />
+        </label>
+        <p class="hint">提示：可替换为 Hugging Face 上任意可用模型 ID，实现“自己的 AI 可调用任何模型”。</p>
+      </aside>
+
+      <section class="panel workspace">
+        <nav class="tabs">
+          <button class="tab active" data-tab="chat">AI 聊天</button>
+          <button class="tab" data-tab="code">AI 代码</button>
+          <button class="tab" data-tab="writing">AI 写作</button>
+          <button class="tab" data-tab="video">AI 视频</button>
+          <button class="tab" data-tab="faceswap">AI 换脸</button>
+        </nav>
+
+        <article class="tab-panel active" id="chat">
+          <h3>聊天助手</h3>
+          <textarea id="chatPrompt" rows="6" placeholder="输入你想聊的话题..."></textarea>
+          <button data-action="chat">发送</button>
+          <pre id="chatOutput" class="output"></pre>
+        </article>
+
+        <article class="tab-panel" id="code">
+          <h3>代码助手</h3>
+          <textarea id="codePrompt" rows="6" placeholder="例如：用 Python 写一个快速排序"></textarea>
+          <button data-action="code">生成代码</button>
+          <pre id="codeOutput" class="output"></pre>
+        </article>
+
+        <article class="tab-panel" id="writing">
+          <h3>写作助手</h3>
+          <textarea id="writingPrompt" rows="6" placeholder="例如：写一篇关于 AI 未来的中文演讲稿"></textarea>
+          <button data-action="writing">开始写作</button>
+          <pre id="writingOutput" class="output"></pre>
+        </article>
+
+        <article class="tab-panel" id="video">
+          <h3>视频生成助手</h3>
+          <textarea id="videoPrompt" rows="4" placeholder="描述你要生成的视频场景"></textarea>
+          <button data-action="video">提交视频任务</button>
+          <pre id="videoOutput" class="output"></pre>
+          <p class="hint">说明：多数视频模型为异步任务，本示例返回任务状态或结果链接。</p>
+        </article>
+
+        <article class="tab-panel" id="faceswap">
+          <h3>换脸助手（示例工作流）</h3>
+          <textarea id="facePrompt" rows="4" placeholder="说明换脸风格和要求"></textarea>
+          <button data-action="faceswap">提交换脸任务</button>
+          <pre id="faceOutput" class="output"></pre>
+          <p class="hint">建议：生产环境可接入 Roop / InsightFace / Diffusers Inpainting API 管道。</p>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <small>⚠️ Token 仅保存在你的浏览器 localStorage 中，请勿在不安全设备使用。</small>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
