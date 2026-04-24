@@ -15,8 +15,27 @@
 3. 按需替换模型 ID（支持 Hugging Face 上任意可访问模型）。
 4. 在不同标签页输入提示词并调用。
 
+## 直接一键传到 Hugging Face（Space）
+
+> 你要的“直接一键上传”已支持：执行下面一条命令即可创建/更新你的 Space。
+
+```bash
+HF_TOKEN=你的hf_token python scripts/deploy_to_hf_space.py --space 你的space名字
+```
+
+发布完成后会输出你的 Space 地址：
+
+```text
+https://huggingface.co/spaces/<你的用户名>/<你的space名字>
+```
+
+### 可选参数
+
+- `--org <组织名>`：发布到组织下的 Space
+- `--token <hf_token>`：不使用环境变量时可直接传入 token
+
 ## 说明
 
 - Token 只保存在本地浏览器 `localStorage`。
 - 视频与换脸模型通常是异步工作流，示例中会显示原始响应，你可以继续扩展为轮询任务状态 + 结果展示。
-- 这是一个可二次开发的 MVP，适合作为“自己的 AI 模型门户”基础版本。
+- 部署脚本会自动调用 Hugging Face Hub API 创建 Space（`type=space`, `sdk=static`），然后通过 git push 覆盖发布。

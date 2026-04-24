@@ -133,3 +133,29 @@ function bindActions() {
 loadConfig();
 bindTabs();
 bindActions();
+bindDeployCommandHelper();
+
+
+function bindDeployCommandHelper() {
+  const output = document.getElementById("deployCmdOutput");
+  const btn = document.getElementById("copyDeployCmdBtn");
+  if (!btn || !output) return;
+
+  btn.addEventListener("click", async () => {
+    const spaceName = document.getElementById("spaceName").value.trim();
+    if (!spaceName) {
+      output.textContent = "请先填写 Space 名称";
+      return;
+    }
+
+    const cmd = `HF_TOKEN=你的hf_token python scripts/deploy_to_hf_space.py --space ${spaceName}`;
+    output.textContent = cmd;
+
+    try {
+      await navigator.clipboard.writeText(cmd);
+      output.textContent += "\n\n✅ 命令已复制，粘贴到终端执行即可一键发布。";
+    } catch {
+      output.textContent += "\n\n⚠️ 自动复制失败，请手动复制上面的命令。";
+    }
+  });
+}
