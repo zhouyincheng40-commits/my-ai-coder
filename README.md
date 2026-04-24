@@ -23,6 +23,14 @@
 HF_TOKEN=你的hf_token python scripts/deploy_to_hf_space.py --space 你的space名字 --sdk static
 ```
 
+如果你希望“直接替换后就能跑”，可以在网页里先填好 Token + Space 名，点击“复制已替换的一键命令”，拿到的是可直接粘贴执行的命令。
+
+也可以用交互式一键脚本（不用手动拼参数）：
+
+```bash
+bash scripts/deploy_now.sh
+```
+
 发布完成后会输出你的 Space 地址：
 
 ```text

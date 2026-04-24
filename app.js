@@ -1,6 +1,6 @@
 const STORAGE_KEY = "my-omni-ai-config";
 
-const ids = ["hfToken", "chatModel", "codeModel", "writerModel", "videoModel", "faceModel"];
+const ids = ["hfToken", "chatModel", "codeModel", "writerModel", "videoModel", "faceModel", "spaceName", "spaceSdk"];
 
 const outputs = {
   chat: document.getElementById("chatOutput"),
@@ -15,15 +15,28 @@ function loadConfig() {
   ids.forEach((id) => {
     if (cached[id]) document.getElementById(id).value = cached[id];
   });
+
+  if (typeof cached.spacePrivate === "boolean") {
+    const privateInput = document.getElementById("spacePrivate");
+    if (privateInput) privateInput.checked = cached.spacePrivate;
+  }
 }
 
 function getConfig() {
-  return Object.fromEntries(ids.map((id) => [id, document.getElementById(id).value.trim()]));
+  const config = Object.fromEntries(ids.map((id) => [id, document.getElementById(id).value.trim()]));
+  const privateInput = document.getElementById("spacePrivate");
+  config.spacePrivate = Boolean(privateInput?.checked);
+  return config;
 }
 
 function saveConfig() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(getConfig()));
   alert("配置已保存到浏览器");
+}
+
+function shellQuote(value) {
+  if (!value) return "''";
+  return `'${String(value).replace(/'/g, `'\\''`)}'`;
 }
 
 async function hfTextInference(model, prompt, token) {
@@ -150,9 +163,16 @@ function bindDeployCommandHelper() {
 
     const sdk = document.getElementById("spaceSdk")?.value || "static";
     const privateFlag = document.getElementById("spacePrivate")?.checked ? " --private" : "";
+    const token = document.getElementById("hfToken")?.value.trim();
 
-    const cmd = `HF_TOKEN=你的hf_token python scripts/deploy_to_hf_space.py --space ${spaceName} --sdk ${sdk}${privateFlag}`;
+    const commandPrefix = token
+      ? `HF_TOKEN=${shellQuote(token)} `
+      : "HF_TOKEN=你的hf_token ";
+
+    const cmd = `${commandPrefix}python scripts/deploy_to_hf_space.py --space ${shellQuote(spaceName)} --sdk ${shellQuote(sdk)}${privateFlag}`;
     output.textContent = cmd;
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(getConfig()));
 
     try {
       await navigator.clipboard.writeText(cmd);
