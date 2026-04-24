@@ -43,6 +43,17 @@
         <label>Space 名称
           <input id="spaceName" type="text" placeholder="my-omni-ai-studio" />
         </label>
+        <label>Space SDK
+          <select id="spaceSdk">
+            <option value="static">static（当前前端推荐）</option>
+            <option value="gradio">gradio</option>
+            <option value="docker">docker</option>
+          </select>
+        </label>
+        <label class="inline-control">
+          <input id="spacePrivate" type="checkbox" />
+          创建私有 Space
+        </label>
         <button id="copyDeployCmdBtn" type="button">复制一键发布命令</button>
         <pre id="deployCmdOutput" class="output"></pre>
       </aside>

@@ -148,7 +148,10 @@ function bindDeployCommandHelper() {
       return;
     }
 
-    const cmd = `HF_TOKEN=你的hf_token python scripts/deploy_to_hf_space.py --space ${spaceName}`;
+    const sdk = document.getElementById("spaceSdk")?.value || "static";
+    const privateFlag = document.getElementById("spacePrivate")?.checked ? " --private" : "";
+
+    const cmd = `HF_TOKEN=你的hf_token python scripts/deploy_to_hf_space.py --space ${spaceName} --sdk ${sdk}${privateFlag}`;
     output.textContent = cmd;
 
     try {
